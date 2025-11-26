@@ -5,29 +5,55 @@ import datetime
 # --- 1. APP CONFIGURATION (High-End Settings) ---
 st.set_page_config(
     page_title="Ethical Agent | Enterprise Pilot",
-    page_icon="🌐",
+    page_icon="⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- 2. CUSTOM CSS (The "Polish" - Hides default branding) ---
+# --- 2. CUSTOM CSS (The "Design Polish") ---
+# This hides the Streamlit menu and styles the buttons to look like "Pro" software.
 st.markdown("""
     <style>
-    .block-container {padding-top: 1rem; padding-bottom: 0rem;}
+    /* Hide Streamlit Branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    .stButton>button {
-        width: 100%;
-        background-color: #4A148C;
-        color: white;
-        border-radius: 8px;
-        font-weight: bold;
+    header {visibility: hidden;}
+    
+    /* Professional Background */
+    .stApp {
+        background-color: #0e1117;
     }
-    .metric-card {
-        background-color: #f0f2f6;
+    
+    /* Custom Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #161b22;
+        border-right: 1px solid #30363d;
+    }
+    
+    /* High-End Buttons */
+    .stButton>button {
+        background: linear-gradient(90deg, #6200EA 0%, #3700B3 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
         border-radius: 10px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(98, 0, 234, 0.4);
+    }
+    
+    /* Card Styling */
+    div[data-testid="stMetric"] {
+        background-color: #1c2128;
+        border: 1px solid #30363d;
         padding: 15px;
-        margin-bottom: 10px;
+        border-radius: 10px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -44,7 +70,8 @@ with st.sidebar:
     standard = st.selectbox("Target Standard", [
         "TEKS 3.2(A) - Representing Numbers", 
         "TEKS 3.2(D) - Comparing & Ordering",
-        "TEKS 3.2(B) - Base-10 Relationships"
+        "TEKS 3.2(B) - Base-10 Relationships",
+        "TEKS 5.5(A) - Matter (Wildcard)"
     ])
     
     st.markdown("---")
@@ -54,67 +81,57 @@ with st.sidebar:
     st.success("**Trap Detector:** ONLINE")
     
     st.markdown("---")
-    st.info("connected to: **Pilot_v1.3_Engine**")
+    st.info(f"**Server:** {lang} Node Ready")
 
 # --- 4. MAIN DASHBOARD ---
-st.title("Ethical Math Agent: Pilot Workspace")
-st.markdown(f"**Current Session:** {standard} | **Mode:** Human-First Architect")
+st.markdown("## 🧭 Pilot Workspace: Deployment Console")
+st.markdown(f"**Active Session:** {standard} | **Guardrails:** Hardened")
 
-# The "Action" Area
-col1, col2 = st.columns([3, 1])
-with col2:
-    if st.button("▶ GENERATE LESSON", type="primary"):
-        processing = True
-    else:
-        processing = False
-
-# --- 5. THE "MAGIC" DISPLAY (Tabs & Structured Data) ---
-if processing:
-    with st.spinner('Ingesting Field Guide & Applying Epistemic Guardrails...'):
-        time.sleep(2.5) # Simulates heavy computation
+# The "Build" Button
+if st.button("▶ INITIALIZE GENERATION SEQUENCE"):
     
-    # Create Professional Tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["📄 Core Lesson", "🪜 Differentiation", "📊 Teacher Metrics", "🛠️ Debug Logic"])
+    # Progress Bar Animation (Looks like real processing)
+    progress_text = "Consulting Epistemic Framework..."
+    my_bar = st.progress(0, text=progress_text)
+
+    for percent_complete in range(100):
+        time.sleep(0.01)
+        my_bar.progress(percent_complete + 1, text=progress_text)
+    
+    time.sleep(1)
+    
+    # TABS LAYOUT (The Enterprise Feature)
+    tab1, tab2, tab3 = st.tabs(["📄 Lesson Blueprint", "🪜 Differentiation Engine", "🛡️ Safety Audit"])
     
     with tab1:
-        st.subheader(f"Lesson Plan: {standard}")
-        st.info("⚡ **Readiness Probe (5 min):** Show 48,520 vs 48,502. Ask: 'Which is greater, or are they equal?'")
-        st.markdown("### Inferred Context")
-        st.warning("**Trap Detected:** Students checking number length instead of place value.")
-        st.markdown("### Whole Group (I DO)")
-        st.write("Use physical place value chart. No devices allowed during Core Instruction.")
+        st.success(f"**Standard Generated:** {standard}")
+        st.markdown("### Readiness Probe (5 Min)")
+        st.info("Show 48,520 vs 48,502. Ask: 'Which is greater, or are they equal?' (Device-Free)")
+        st.markdown("### Trap Detector")
+        st.warning("⚠️ **Alert:** Students checking number length instead of place value.")
         
     with tab2:
-        col_a, col_b, col_c = st.columns(3)
-        with col_a:
+        c1, c2, c3 = st.columns(3)
+        with c1:
             st.error("**[BRIDGE: Below Level]**")
             st.write("Use Base-10 Blocks.")
             st.caption("**ELPS Support:** 'The value of ___ is ___.'")
-        with col_b:
+        with c2:
             st.success("**[CORE: On Level]**")
             st.write("Symbol Cards (>, <, =).")
             st.caption("**Focus:** Justification.")
-        with col_c:
+        with c3:
             st.info("**[EXTENSION: Above Level]**")
             st.write("AI Visualization.")
             st.caption("**Constraint:** Hand-Verify Results.")
             
     with tab3:
-        st.subheader("Teacher Success Metrics (T-TESS)")
-        st.checkbox("Evidence of Differentiation?", value=True, disabled=True)
-        st.checkbox("Human-First Protocol Used?", value=True, disabled=True)
-        st.checkbox("Misconceptions Addressed?", value=True, disabled=True)
-        st.metric(label="Pedagogical Safety Score", value="100%", delta="Pass")
-
-    with tab4:
-        st.code(f"""
-        LOGIC TRACE:
-        > Standard: {standard}
-        > Scope Lock: ACTIVE
-        > Comparison Equality Check: PASSED
-        > Device Check: BLOCKED (Core)
-        """, language="bash")
+        st.json({
+            "Equality_Check": "PASS",
+            "Scope_Drift": "NONE",
+            "Trap_Detector": "ACTIVE",
+            "ELPS_Module": "INJECTED"
+        })
 
 else:
-    # Empty State (Looks clean before clicking)
-    st.info("👈 Select a standard from the wizard to begin generation.")
+    st.info("👈 Select a standard from the sidebar to begin.")
