@@ -4,7 +4,7 @@ import datetime
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
-    page_title="Ethical Agent | Enterprise",
+    page_title="Ethical Agent | Pilot v1.3",
     page_icon="🧬",
     layout="wide"
 )
@@ -34,7 +34,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- 3. DATA DICTIONARY (RAW ENGLISH CONTENT) ---
-# This contains the full, detailed lessons you generated.
 RAW_DATA = {
     "TEKS 3.2(A)": """
 ### **Lesson Plan: TEKS 3.2(A) Representing Numbers**
@@ -232,7 +231,7 @@ with st.sidebar:
     st.caption(f"v1.4 | Enterprise | {datetime.date.today()}")
     st.markdown("---")
     
-    grade = st.selectbox("Grade Level", ["Grade 3", "Grade 4", "Grade 5"])
+    # Only Language (Grade Removed)
     lang = st.selectbox("Language", ["English (US)", "Spanish", "Swahili"])
     
     st.markdown("### 🟢 System Diagnostics")
@@ -246,7 +245,7 @@ with st.sidebar:
 
 # --- 6. MAIN INTERFACE ---
 st.title("Ethical Math Agent (Pilot v1.4)")
-st.markdown("Select a standard. The engine will adapt to Grade & Language automatically.")
+st.markdown("Select a standard. The engine will adapt to Language automatically.")
 
 col1, col2, col3, col4 = st.columns(4)
 selected = None
@@ -273,7 +272,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if selected:
-    user_text = f"Generate {selected} for {grade} in {lang}"
+    user_text = f"Generate {selected} in {lang}"
     st.session_state.messages.append({"role": "user", "content": user_text})
     with st.chat_message("user"):
         st.markdown(user_text)
