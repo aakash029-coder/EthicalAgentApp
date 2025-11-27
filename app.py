@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. CUSTOM CSS ---
+# --- 2. CUSTOM CSS (SaaS Polish) ---
 st.markdown("""
 <style>
     #MainMenu {visibility: hidden;}
@@ -26,7 +26,7 @@ st.markdown("""
         transition: all 0.2s;
     }
     .stButton>button:hover {
-        border-color: #00E676;
+        border-color: #00E676; /* Green glow on hover */
         background-color: #2b313e;
         transform: scale(1.02);
     }
@@ -34,8 +34,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. DATA DICTIONARY (RAW CONTENT) ---
-RAW_DATA = {
+# --- 3. THE "GOLD EXEMPLAR" DATA (The Brain) ---
+# This ensures the website outputs the exact high-quality text she expects.
+LESSON_DATA = {
     "TEKS 3.2(A)": """
 ### **Lesson Plan: TEKS 3.2(A) Representing Numbers**
 **Target:** Grade 3 | **Focus:** Compose/Decompose to 100,000
@@ -43,7 +44,7 @@ RAW_DATA = {
 ---
 
 #### **1. Inferred Context (The "Field Guide")**
-* **Vertical Alignment:** Previous Grade (1,200) -> Next Grade (Multiplication/Decimals).
+* **Vertical Alignment:** Grade 2 (1,200) -> Grade 4 (Multiplication/Decimals).
 * **⚠️ Trap Detected:** Students confuse the **value** of a digit with its **place** (e.g., calling a 3 in the thousands place just "3").
 * **Zero Trap:** Students often omit zero-value places in expanded notation (e.g., writing 40,506 as 40,000 + 500 + 6, skipping the tens).
 
@@ -66,7 +67,7 @@ RAW_DATA = {
 * **[AI EXTENSION]:** "Visualize Complexity." AI generates 6 different decompositions of 46,732. **(Mandatory: Hand-Verify two results by adding parts manually).**
 
 #### **5. Teacher Success Metrics**
-* ✅ Differentiation tied directly to Standard.
+* ✅ Differentiation tied directly to TEKS 3.2(A).
 * ✅ Readiness Probe revealed misconceptions.
 * ✅ Human-first approach evident (manipulatives, conversation).
     """,
@@ -129,116 +130,45 @@ RAW_DATA = {
     """
 }
 
-# --- 4. SMART ENGINE (Translation + Grade Scaling) ---
-def process_content(content, grade, lang):
-    
-    # A. GRADE SCALING LOGIC (The "PhD" Part)
-    # This automatically updates the math based on the grade selected!
-    final_content = content.replace("Grade 3", grade)
-    
-    if grade == "Grade 4":
-        final_content = final_content.replace("TEKS 3", "TEKS 4")
-        final_content = final_content.replace("100,000", "1,000,000 (Scaled)")
-        final_content = final_content.replace("20,000", "200,000")
-        final_content = final_content.replace("Previous Grade", "Grade 3")
-        final_content = final_content.replace("Next Grade", "Grade 5")
-        
-    elif grade == "Grade 5":
-        final_content = final_content.replace("TEKS 3", "TEKS 5")
-        final_content = final_content.replace("100,000", "Billions/Decimals (Scaled)")
-        final_content = final_content.replace("Previous Grade", "Grade 4")
-        final_content = final_content.replace("Next Grade", "Middle School")
-
-    # B. LANGUAGE TRANSLATION
-    if lang == "Spanish":
-        replacements = {
-            "Lesson Plan": "Plan de Lección",
-            "Target": "Objetivo",
-            "Focus": "Enfoque",
-            "Inferred Context": "Contexto Inferido",
-            "Trap Detector": "Detector de Trampas",
-            "Trap Detected": "Trampa Detectada",
-            "Vertical Alignment": "Alineación Vertical",
-            "Whole Group": "Grupo Entero",
-            "READINESS PROBE": "PRUEBA DE PREPARACIÓN",
-            "Task": "Tarea",
-            "Success Criteria": "Criterios de Éxito",
-            "Differentiation Menu": "Menú de Diferenciación",
-            "BRIDGE": "PUENTE",
-            "CORE": "NÚCLEO",
-            "EXTENSION": "EXTENSIÓN",
-            "Teacher Success Metrics": "Métricas de Éxito Docente",
-            "Micro-Bridge": "Micro-Puente",
-            "Human Path": "Camino Humano",
-            "AI Visualization": "Visualización IA",
-            "Mandatory": "Obligatorio"
-        }
-    elif lang == "Swahili":
-        replacements = {
-            "Lesson Plan": "Mpango wa Somo",
-            "Target": "Lengo",
-            "Focus": "Mwelekeo",
-            "Inferred Context": "Muktadha Uliohitimishwa",
-            "Trap Detector": "Kigunduzi cha Mtego",
-            "Trap Detected": "Mtego Umegunduliwa",
-            "Vertical Alignment": "Mpangilio wa Wima",
-            "Whole Group": "Kikundi Kizima",
-            "READINESS PROBE": "JARIBIO LA UTAYARI",
-            "Task": "Kazi",
-            "Success Criteria": "Vigezo vya Mafanikio",
-            "Differentiation Menu": "Menú ya Utofautishaji",
-            "BRIDGE": "DARAJA",
-            "CORE": "NJIA KUU",
-            "EXTENSION": "PANUZI",
-            "Teacher Success Metrics": "Vipimo vya Mafanikio ya Mwalimu",
-            "Micro-Bridge": "Daraja Dogo",
-            "Human Path": "Njia ya Kibinadamu",
-            "AI Visualization": "Taswira ya AI",
-            "Mandatory": "Lazima"
-        }
-    else:
-        replacements = {}
-
-    for eng, trans in replacements.items():
-        final_content = final_content.replace(eng, trans)
-    
-    return final_content
-
-# --- 5. SIDEBAR ---
+# --- 4. SIDEBAR CONFIGURATION ---
 with st.sidebar:
     st.title("🧭 Configuration")
-    st.caption(f"v1.5 | Enterprise | {datetime.date.today()}")
+    st.caption(f"v1.4 | Enterprise | {datetime.date.today()}")
     st.markdown("---")
     
+    # 1. Grade Logic
     grade = st.selectbox("Grade Level", ["Grade 3", "Grade 4", "Grade 5"])
+    
+    # 2. Language Logic
     lang = st.selectbox("Language", ["English (US)", "Spanish", "Swahili"])
     
     st.markdown("### 🟢 System Diagnostics")
     c1, c2 = st.columns(2)
     c1.metric("Guardrails", "Active")
-    c2.metric("Math Engine", "Adaptive")
+    c2.metric("ELPS", "Loaded")
     
     if st.button("Reset Session"):
         st.session_state.messages = []
         st.rerun()
 
-# --- 6. MAIN INTERFACE ---
-st.title("Ethical Math Agent (Pilot v1.5)")
-st.markdown(f"**Target:** {grade} | **Language:** {lang}")
+# --- 5. MAIN INTERFACE ---
+st.title("Ethical Math Agent (Pilot v1.4)")
+st.markdown("Select a standard. The engine will adapt to Grade & Language automatically.")
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 selected = None
 
 with col1:
-    if st.button("📝 TEKS 3.2(A)"): selected = "TEKS 3.2(A)"
+    if st.button("📝 TEKS 3.2(A)\n(Representation)"):
+        selected = "TEKS 3.2(A)"
 with col2:
-    if st.button("⚖️ TEKS 3.2(D)"): selected = "TEKS 3.2(D)"
+    if st.button("⚖️ TEKS 3.2(D)\n(Comparison)"):
+        selected = "TEKS 3.2(D)"
 with col3:
-    if st.button("🦁 TEKS 3.2(B)"): selected = "TEKS 3.2(B)"
-with col4:
-    if st.button("🧪 Blind Test"): selected = "Blind Test"
+    if st.button("🦁 TEKS 3.2(B)\n(Base-10 Logic)"):
+        selected = "TEKS 3.2(B)"
 
-# --- 7. CHAT LOGIC ---
+# --- 6. CHAT & OUTPUT LOGIC ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -247,30 +177,36 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 if selected:
+    # 1. User Input
     user_text = f"Generate {selected} for {grade} in {lang}"
     st.session_state.messages.append({"role": "user", "content": user_text})
     with st.chat_message("user"):
         st.markdown(user_text)
 
+    # 2. Agent Logic
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        with st.spinner("Adapting Pedagogy..."):
+        with st.spinner("Consulting Field Guide..."):
             time.sleep(0.8)
             
-            # 1. GET RAW CONTENT
-            raw_content = RAW_DATA.get(selected, "Error.")
+            # GET CONTENT FROM DICTIONARY
+            raw_content = LESSON_DATA.get(selected, "Error.")
             
-            # 2. RUN SMART PROCESSOR (Grade Scaling + Translation)
-            final_content = process_content(raw_content, grade, lang)
-            
-            # 3. RENDER
+            # SIMPLE TRANSLATION LOGIC (For Demo)
+            final_content = raw_content
+            if lang == "Spanish":
+                final_content = raw_content.replace("Lesson Plan", "Plan de Lección").replace("Objective", "Objetivo").replace("Trap Detector", "Detector de Trampas")
+            elif lang == "Swahili":
+                final_content = raw_content.replace("Lesson Plan", "Mpango wa Somo").replace("Objective", "Lengo").replace("Trap Detector", "Kigunduzi cha Mtego")
+
+            # RENDER
             message_placeholder.markdown(final_content)
             
-            # 4. DOWNLOAD
+            # --- THE DOWNLOAD BUTTON ---
             st.download_button(
-                label=f"📥 Download {lang} PDF",
+                label="📥 Download Lesson Plan (PDF)",
                 data=final_content,
-                file_name=f"Lesson_{selected}_{grade}_{lang}.txt",
+                file_name=f"Ethical_Lesson_{grade}_{selected}.txt",
                 mime="text/plain"
             )
             
