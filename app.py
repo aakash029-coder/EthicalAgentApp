@@ -4,9 +4,10 @@ import datetime
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
-    page_title="Ethical Agent | Pilot v1.3",
+    page_title="Ethical Agent | Enterprise",
     page_icon="🧬",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # --- 2. CUSTOM CSS ---
@@ -37,35 +38,44 @@ st.markdown("""
 RAW_DATA = {
     "TEKS 3.2(A)": """
 ### **Lesson Plan: TEKS 3.2(A) Representing Numbers**
-**Objective:** Compose and decompose numbers up to 100,000 using objects, pictures, and expanded notation.
-**Human Skill Focus:** Critique & Precision.
+**Standard:** TEKS 3.2(A) — Represent a number up to 100,000 as a composed number: standard form, word form, expanded form, and expanded notation.
+**Objective:** I can read, write, and model numbers up to 100,000 in more than one form.
+**Human Skill Focus:** Collaboration (students talk, justify, and co-construct place-value meaning).
 
 ---
 
-#### **1. Inferred Context (Trap Detector)**
-* **Vertical Alignment:** Grade 2 (1,200) -> Grade 4 (Multiplication).
-* **⚠️ Trap Detected:** Students confuse digit value with place (e.g., calling 3 in 3,000 just "3").
-* **Zero Trap:** Omitted zero-value places (e.g., 405 -> 400 + 5).
+#### **1. Inferred Context (The "Field Guide")**
+* **Vertical Alignment:**
+    * From Grade 2: Students decomposed numbers up to 1,200.
+    * In Grade 3: They must extend this to 100,000.
+    * Toward Grade 4: Supports later multi-step operations.
+* **⚠️ Trap Detector:**
+    * **Validity Check:** All numbers chosen are pre-checked to ensure meaningful digit-value changes (e.g., 46,732).
+    * **Misconception:** Students confuse the value of a digit with its place (e.g., calling a 3 in the thousands place "3").
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min, Low-Tech):** "Write 45,230 in words OR pictures."
-* **Success Criteria:** Approximate drawings are okay. Watch for "2 tens" vs "20".
+* **Task (5 min | Human Path | Low-Tech):** "On a notecard, write two different forms of **18,504**."
+* **Success Criteria:**
+    * Watch for flipping digits.
+    * Watch for omitting the thousands place.
+    * *Note:* Because no number line is used, accuracy is required.
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** Build 32,407 with physical blocks. <br> **[ELPS SUPPORT]:** Sentence Stem: *"The value of ___ is ___."* (Cognates: Valor, Posición). |
-| **[CORE]** | **Human Path:** Convert 37,520 (Block -> Standard -> Expanded). Turn and talk: "Which digit has the greatest value?" |
-| **[EXTENSION]** | **Challenge:** Create two numbers where Hundreds > Thousands. Compare using >, <, =. |
+| **[BRIDGE]** | **Micro-Bridge:** "Place-Value Chart Tiles." Build 46,732 using physical tiles. <br> **[ELPS SUPPORT]:** Sentence Stem: *"The digit ___ is in the ___ place."* (Cognates: Estándar, Forma). |
+| **[CORE]** | **Human Path (Device-Free):** "Each One Teach One." Students rotate with whiteboards representing 46,732 in Standard, Word, and Expanded forms. |
+| **[EXTENSION]** | **Challenge:** "Flexible Decomposition." Represent 46,732 in two *new* ways (e.g., 45,000 + 1,732). Justify equivalence. |
 
 #### **4. Technology Station**
-* **[SCAFFOLD]:** Virtual Base-10 Blocks (48,206).
-* **[AI EXTENSION]:** "Visualize Complexity." AI generates 5 numbers between 30k-60k. **(Mandatory: Hand-Verify first 2 results).**
+* **[SCAFFOLD]:** Drag-and-drop place-value tool (Goal: Accuracy).
+* **[AI EXTENSION]:** "Visualize Complexity." AI generates 6 different decompositions of 46,732. **(Mandatory: Hand-Verify two results by adding parts manually).**
 
 #### **5. Teacher Success Metrics**
-* ✅ Validity confirmed for all numbers.
-* ✅ Human-first stations encourage talk.
+* ✅ Differentiation tied directly to TEKS 3.2(A).
+* ✅ Readiness Probe revealed misconceptions.
+* ✅ Human-first approach evident (manipulatives, conversation).
     """,
 
     "TEKS 3.2(D)": """
@@ -76,28 +86,28 @@ RAW_DATA = {
 ---
 
 #### **1. Inferred Context (Trap Detector)**
-* **⚠️ Trap Detected:** Thinking "Longer number = Bigger number."
-* **Alignment:** Grade 2 (3-digits) -> Grade 4 (Decimals).
+* **⚠️ Trap Detected:** Students compare by "length" (thinking 9,999 > 12,000 because 9 > 1).
+* **Equality Trap:** Students forget that "=" is a valid comparison result.
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** "Compare 38,420 vs 38,240. Point to the greater one. Explain why."
-* **Success Criteria:** Must mention "Hundreds Place" (400 vs 200).
+* **Task (5 min):** "Show **38,420** and **38,240**. Ask: Which is greater, **or are they equal**? Point to the deciding place."
+* **Success Criteria:** Student identifies the **Hundreds** place (400 vs 200) as the decider.
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** Sort 24,305 vs 24,350 using value cards. <br> **[ELPS SUPPORT]:** Sentence Stem: *"I looked at the ___ place first."* |
-| **[CORE]** | **Human Path:** Compare 62,480 vs 62,408. Write symbols (>, <, =) and justify to a partner. |
-| **[EXTENSION]** | **Challenge:** Order 91,560, 90,516, 91,506. Identify the exact deciding place. |
+| **[BRIDGE]** | **Micro-Bridge:** "Stacking Cards." Sort 24,305 vs 24,350 using value cards. <br> **[ELPS SUPPORT]:** *"I compared the numbers by looking at the ___ place first."* |
+| **[CORE]** | **Human Path:** "Symbol Debate." Compare 62,480 vs 62,408. Write symbols (>, <, =) and verbally justify to a partner. |
+| **[EXTENSION]** | **Challenge:** "Equality Investigation." Order 91,560, 90,516, 91,506. Generate a new number that fits *between* them. |
 
 #### **4. Technology Station**
-* **[SCAFFOLD]:** Drag-and-drop place value chart.
-* **[AI EXTENSION]:** "Visualize Complexity." AI generates numbers differing only in middle digits. **(Mandatory: Hand-Verify sample).**
+* **[SCAFFOLD]:** Digital Number Line (Visual alignment).
+* **[AI EXTENSION]:** "Visualize Complexity." Generate 6 numbers between 20,000 and 60,000 that only differ in the middle digits. **(Mandatory: Hand-Verify ordering).**
 
 #### **5. Teacher Success Metrics**
-* ✅ Equality comparisons included.
-* ✅ Reasoning defended verbally.
+* ✅ Equality comparisons included per scope requirement.
+* ✅ Students defended reasoning using place-value vocabulary.
     """,
 
     "TEKS 3.2(B)": """
@@ -108,23 +118,23 @@ RAW_DATA = {
 ---
 
 #### **1. Inferred Context (Trap Detector)**
-* **⚠️ Trap Detected:** "Add a Zero" misconception (Additive vs Multiplicative).
+* **⚠️ Trap Detected:** Students think "10 times bigger" just means "add a zero" (Additive vs Multiplicative).
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** "Draw 300 and 30. Which is worth more? Why?"
-* **Success Criteria:** Identifies 300 is 10x larger.
+* **Task (5 min):** Hold up a Ten Rod and a Hundred Flat. Ask: "Exactly how many Rods fit inside this Flat?"
+* **Success Criteria:** Student states "10 tens make 1 hundred."
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** Trade 1 Ten Rod for 10 Ones. Trade 1 Hundred Flat for 10 Tens. <br> **[ELPS SUPPORT]:** *"One ___ equals 10 groups of ___."* |
-| **[CORE]** | **Human Path:** "Slide the Digit." Move 4 -> 40 -> 400. Explain the value shift. |
-| **[EXTENSION]** | **Challenge:** "The Million Question." If we had 10 Hundred-Thousands, what would we have? |
+| **[BRIDGE]** | **Micro-Bridge:** "Bundling." Physically rubber-band 10 straws to make 1 bundle. Then bundle 10 bundles. <br> **[ELPS SUPPORT]:** Visual aid showing x10 jumps. |
+| **[CORE]** | **Human Path:** "Slide the Digit." Move 4 -> 40 -> 400. Explain the value shift using the sentence: *"The value of the ___ place is 10 times the value of the ___ place."* |
+| **[EXTENSION]** | **Challenge:** "The Million Question." If we had 10 Hundred-Thousands blocks, what would we have? Draw a model. |
 
 #### **4. Teacher Success Metrics**
-* ✅ Physical models used before abstract rules.
-* ✅ Trap Detector active.
+* ✅ Physical manipulatives used before abstract rules.
+* ✅ Trap Detector caught the "Add Zero" misconception.
     """,
 
     "Blind Test": """
