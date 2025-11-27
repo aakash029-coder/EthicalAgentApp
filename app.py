@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import datetime
+import google.generativeai as genai
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
@@ -31,110 +32,42 @@ st.markdown("""
         transform: scale(1.02);
     }
     th {background-color: #2b313e; color: white;}
-    /* Fix Chat Input to look like a Search Bar */
-    .stChatInput {
-        position: fixed;
-        bottom: 3rem;
-        z-index: 1000;
-    }
+    .stChatInput {position: fixed; bottom: 3rem; z-index: 1000;}
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. DATA DICTIONARY (The Knowledge Base) ---
+# --- 3. DATA DICTIONARY (GOLD EXEMPLARS) ---
+# These ensure your demos are always 100% perfect.
 RAW_DATA = {
-    "TEKS 3.2(A)": """
-### **Lesson Plan: TEKS 3.2(A) Representing Numbers**
-**Target:** {grade} | **Language:** {lang} | **Focus:** Compose/Decompose
-
----
-
-#### **1. Inferred Context (The "Field Guide")**
-* **Vertical Alignment:** Previous Grade -> Future Grade.
-* **⚠️ Trap Detected:** Students confuse digit value with place.
-* **Zero Trap:** Omitted zero-value places.
-
-#### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** "Write **18,504** in expanded form."
-* **Success Criteria:** Check for zero-place errors.
-
-#### **3. Differentiation Menu**
-
-| Group | Activity |
-| :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** Build with physical tiles. <br> **[ELPS]:** *"The digit ___ is in the ___ place."* |
-| **[CORE]** | **Human Path:** Rotate with whiteboards. |
-| **[EXTENSION]** | **Challenge:** Flexible Decomposition. |
-
-#### **4. Teacher Success Metrics**
-* ✅ Differentiation aligned.
-* ✅ Human-first approach used.
-    """,
-    
-    # (Other standards would go here, but the "Search" handles new ones via simulation below)
+    "TEKS 3.2(A)": """### **Lesson Plan: TEKS 3.2(A) Representing Numbers**\n**Target:** Grade 3 | **Focus:** Compose/Decompose\n\n#### **1. Inferred Context (The "Field Guide")**\n* **Trap:** Students confuse digit value with place.\n\n#### **2. Whole Group [READINESS PROBE]**\n* **Task (5 min):** "Write **18,504** in expanded form."\n\n#### **3. Differentiation Menu**\n| Group | Activity |\n| :--- | :--- |\n| **[BRIDGE]** | **Micro-Bridge:** Physical tiles. |\n| **[CORE]** | **Human Path:** Whiteboards. |\n| **[EXTENSION]** | **Challenge:** Flexible Decomposition. |\n\n#### **4. Teacher Success Metrics**\n* ✅ Validity Confirmed.\n""",
+    "TEKS 3.2(D)": """### **Lesson Plan: TEKS 3.2(D) Comparing & Ordering**\n**Target:** Grade 3 | **Focus:** Logic\n\n#### **1. Inferred Context**\n* **Trap:** Thinking "Longer = Bigger".\n\n#### **2. Whole Group [READINESS PROBE]**\n* **Task:** Compare 38,420 vs 38,240.\n\n#### **3. Differentiation Menu**\n| Group | Activity |\n| :--- | :--- |\n| **[BRIDGE]** | **Micro-Bridge:** Stacking Cards. |\n| **[CORE]** | **Human Path:** Symbol Debate. |\n| **[EXTENSION]** | **Challenge:** Equality Investigation. |\n\n#### **4. Teacher Success Metrics**\n* ✅ Equality Included.\n""",
+    "TEKS 3.2(B)": """### **Lesson Plan: TEKS 3.2(B) Base-10**\n**Target:** Grade 3 | **Focus:** 10x Pattern\n\n#### **1. Inferred Context**\n* **Trap:** "Add a Zero" misconception.\n\n#### **2. Whole Group [READINESS PROBE]**\n* **Task:** Ten Rod vs Hundred Flat.\n\n#### **3. Differentiation Menu**\n| Group | Activity |\n| :--- | :--- |\n| **[BRIDGE]** | **Micro-Bridge:** Bundling Straws. |\n| **[CORE]** | **Human Path:** Slide the Digit. |\n| **[EXTENSION]** | **Challenge:** The Million Question. |\n\n#### **4. Teacher Success Metrics**\n* ✅ Physical Models used.\n"""
 }
 
-# --- 4. LOGIC ENGINE ---
-def generate_response(topic, grade, lang):
-    # 1. Check if we have "Gold" data for this topic
-    if topic in RAW_DATA:
-        content = RAW_DATA[topic]
-    else:
-        # 2. If not, SIMULATE a new lesson (The "Search" Logic)
-        content = f"""
-### **Lesson Plan: {topic}**
-**Target:** {grade} | **Language:** {lang} | **Focus:** Conceptual Understanding
-
----
-
-#### **1. Inferred Context (Auto-Generated)**
-* **Vertical Alignment:** Scaffolding from previous grade concepts.
-* **⚠️ Trap Detected:** Common misconception regarding {topic}.
-
-#### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** Low-tech diagnostic question related to {topic}.
-* **Constraint:** No devices allowed.
-
-#### **3. Differentiation Menu**
-
-| Group | Activity |
-| :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** Physical manipulatives task. <br> **[ELPS]:** Sentence stems in {lang}. |
-| **[CORE]** | **Human Path:** Peer-to-peer discussion and modeling. |
-| **[EXTENSION]** | **Challenge:** Complex application of {topic}. |
-
-#### **4. Technology Station**
-* **[AI EXTENSION]:** "Visualize Complexity." Hand-verify results.
-
-#### **5. Teacher Success Metrics**
-* ✅ Guardrails Active.
-* ✅ Human-First Protocol Followed.
-        """
-
-    # Apply Translation & Scaling
-    if lang == "Spanish":
-        content = content.replace("Lesson Plan", "Plan de Lección").replace("Trap Detected", "Trampa Detectada")
-    elif lang == "Swahili":
-        content = content.replace("Lesson Plan", "Mpango wa Somo").replace("Trap Detected", "Mtego Umegunduliwa")
-        
-    return content
-
-# --- 5. SIDEBAR ---
+# --- 4. SIDEBAR ---
 with st.sidebar:
     st.title("🧭 Configuration")
-    st.caption(f"v1.5 | Enterprise | {datetime.date.today()}")
+    st.caption(f"v2.0 | HYBRID ENGINE | {datetime.date.today()}")
     st.markdown("---")
     grade = st.selectbox("Grade Level", ["Grade 3", "Grade 4", "Grade 5"])
     lang = st.selectbox("Language", ["English (US)", "Spanish", "Swahili"])
-    st.success("Logic Hardening: **ACTIVE**")
+    
+    # API KEY CHECK
+    if "GEMINI_API_KEY" in st.secrets:
+        st.success("Real Brain: **ONLINE**")
+        genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+    else:
+        st.error("Missing API Key in Secrets!")
+        st.stop()
+
     if st.button("Reset Session"):
         st.session_state.messages = []
         st.rerun()
 
-# --- 6. MAIN INTERFACE ---
-st.title("Ethical Math Agent (Pilot v1.5)")
-st.markdown("Select a standard OR type your own below.")
+# --- 5. MAIN INTERFACE ---
+st.title("Ethical Math Agent (Pilot v2.0)")
+st.markdown("Select a standard OR type anything to activate the Real AI.")
 
-# BUTTONS
 col1, col2, col3, col4 = st.columns(4)
 trigger = None
 
@@ -147,7 +80,6 @@ with col3:
 with col4:
     if st.button("🧪 Blind Test"): trigger = "Blind Test"
 
-# CHAT HISTORY
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -155,37 +87,63 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# --- 7. INPUT HANDLER (The Fix) ---
-# This checks: Did they click a button? OR Did they type?
-
-if prompt := st.chat_input("Search any standard (e.g., 'Grade 5 Fractions')..."):
+# --- 6. THE HYBRID BRAIN ---
+if prompt := st.chat_input("Ask anything (e.g., 'Hello', 'Grade 5 Science')..."):
     trigger = prompt
 
 if trigger:
-    # User Message
     st.session_state.messages.append({"role": "user", "content": trigger})
     with st.chat_message("user"):
         st.markdown(trigger)
 
-    # Agent Generation
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        with st.spinner("Consulting Field Guide..."):
-            time.sleep(1)
-            
-            # Generate Content
-            final_content = generate_response(trigger, grade, lang)
-            
-            # Typewriter
-            display_text = ""
-            for char in final_content:
-                display_text += char
-                if len(display_text) % 5 == 0: 
-                    message_placeholder.markdown(display_text + "▌")
-                    time.sleep(0.001)
-            message_placeholder.markdown(final_content)
-            
-            # Download
-            st.download_button("📥 Download PDF", final_content, "lesson.txt")
+        
+        # LOGIC: If it's a Button Click, use Gold Data. If it's Typing, use Real AI.
+        if trigger in RAW_DATA:
+            with st.spinner("Retrieving Gold Exemplar..."):
+                time.sleep(0.5)
+                final_content = RAW_DATA[trigger]
+        
+        else:
+            # REAL AI GENERATION (Handles "Hello", "Science", etc.)
+            with st.spinner("Consulting Ethical Framework..."):
+                try:
+                    model = genai.GenerativeModel('gemini-pro')
+                    
+                    system_prompt = f"""
+                    You are the 'Ethical Math Agent'.
+                    Current Context: {grade} | {lang}.
+                    
+                    RULES:
+                    1. If the user says "Hello" or chats casually, reply as a helpful Architect.
+                    2. If the user asks for a Lesson, generate it using the Ethical Framework:
+                       - Human-First (No devices in Core).
+                       - Trap Detector (Identify misconceptions).
+                       - Differentiation (Bridge/Core/Extension).
+                       - Teacher Metrics (T-TESS).
+                    3. ALWAYS strictly follow the 'Human-First' rule.
+                    """
+                    
+                    response = model.generate_content(f"{system_prompt}\n\nUser Input: {trigger}", stream=True)
+                    final_content = ""
+                    for chunk in response:
+                        if chunk.text:
+                            final_content += chunk.text
+                            message_placeholder.markdown(final_content + "▌")
+                            
+                except Exception as e:
+                    final_content = f"Error: {e}"
+
+        # Translation Logic (Applies to both Gold Data and AI Data)
+        if lang == "Spanish":
+            final_content = final_content.replace("Lesson Plan", "Plan de Lección").replace("Trap Detected", "Trampa Detectada")
+        elif lang == "Swahili":
+            final_content = final_content.replace("Lesson Plan", "Mpango wa Somo").replace("Trap Detected", "Mtego Umegunduliwa")
+
+        message_placeholder.markdown(final_content)
+        
+        # Download Button
+        st.download_button("📥 Download PDF", final_content, "lesson.txt")
             
     st.session_state.messages.append({"role": "assistant", "content": final_content})
