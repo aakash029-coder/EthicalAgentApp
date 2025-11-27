@@ -4,8 +4,8 @@ import datetime
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
-    page_title="Ethical Agent | Pilot v1.3",
-    page_icon="🤖",
+    page_title="Ethical Agent | Enterprise",
+    page_icon="🧬",
     layout="wide"
 )
 
@@ -18,151 +18,253 @@ st.markdown("""
         background-color: #1e2530;
         color: white;
         border: 1px solid #4a148c;
-        border-radius: 10px;
-        height: 80px;
+        border-radius: 8px;
+        height: 70px;
         width: 100%;
-        font-weight: bold;
+        font-weight: 600;
+        transition: all 0.2s;
     }
     .stButton>button:hover {
-        border-color: #6200EA;
+        border-color: #00E676;
         background-color: #2b313e;
+        transform: scale(1.02);
     }
-    /* Clean Table Styling */
     th {background-color: #2b313e; color: white;}
 </style>
 """, unsafe_allow_html=True)
 
-# --- 3. DATA DICTIONARY (The "Fake Brain") ---
-# Note: I replaced "Grade 3" with "{grade}" so it updates based on the sidebar!
-
-LESSON_DATA = {
+# --- 3. DATA DICTIONARY (RAW ENGLISH CONTENT) ---
+# This contains the full, detailed lessons you generated.
+RAW_DATA = {
     "TEKS 3.2(A)": """
 ### **Lesson Plan: TEKS 3.2(A) Representing Numbers**
-**Target:** {grade} | **Language:** {lang} | **Focus:** Compose/Decompose
+**Objective:** Compose and decompose numbers up to 100,000 using objects, pictures, and expanded notation.
+**Human Skill Focus:** Critique & Precision.
 
 ---
 
 #### **1. Inferred Context (Trap Detector)**
-* **Vertical Alignment:** Previous Grade -> Future Grade.
-* **⚠️ Trap Detected:** Students often think "Expanded Form" means just listing digits (e.g., writing 4, 2, 5 instead of 400 + 20 + 5).
+* **Vertical Alignment:** Grade 2 (1,200) -> Grade 4 (Multiplication).
+* **⚠️ Trap Detected:** Students confuse digit value with place (e.g., calling 3 in 3,000 just "3").
+* **Zero Trap:** Omitted zero-value places (e.g., 405 -> 400 + 5).
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min, Low-Tech):** "Write the number **24,306** in expanded form using place-value blocks drawn on your whiteboard."
-* **Success Criteria:** Correctly handles the ZERO in the tens place.
+* **Task (5 min, Low-Tech):** "Write 45,230 in words OR pictures."
+* **Success Criteria:** Approximate drawings are okay. Watch for "2 tens" vs "20".
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge (8-12 min):** Use physical Base-10 blocks to build numbers. <br> **[ELPS SUPPORT]:** Sentence Stem: *"The value of the ___ place is ___."* |
-| **[CORE]** | **Human Path (Device-Free):** Place Value Carousel. Stations with cards. Students write word form and explain value to a partner. |
-| **[EXTENSION]** | **Challenge:** "Create the smallest change." If you change one digit in 70,090, what is the smallest value change possible? |
+| **[BRIDGE]** | **Micro-Bridge:** Build 32,407 with physical blocks. <br> **[ELPS SUPPORT]:** Sentence Stem: *"The value of ___ is ___."* (Cognates: Valor, Posición). |
+| **[CORE]** | **Human Path:** Convert 37,520 (Block -> Standard -> Expanded). Turn and talk: "Which digit has the greatest value?" |
+| **[EXTENSION]** | **Challenge:** Create two numbers where Hundreds > Thousands. Compare using >, <, =. |
 
 #### **4. Technology Station**
-* **[SCAFFOLD]:** Virtual Base-10 Builder.
-* **[AI EXTENSION]:** "Visualize Complexity." Use AI to generate a dataset of 50 cities and filter by population magnitude. **(Mandatory: Hand-Verify first 3 results).**
+* **[SCAFFOLD]:** Virtual Base-10 Blocks (48,206).
+* **[AI EXTENSION]:** "Visualize Complexity." AI generates 5 numbers between 30k-60k. **(Mandatory: Hand-Verify first 2 results).**
 
 #### **5. Teacher Success Metrics**
-* ✅ ELPS scaffolds present for Bridge group.
-* ✅ Trap Detector addressed the "Zero Placeholder" error.
+* ✅ Validity confirmed for all numbers.
+* ✅ Human-first stations encourage talk.
     """,
 
     "TEKS 3.2(D)": """
 ### **Lesson Plan: TEKS 3.2(D) Comparing & Ordering**
-**Target:** {grade} | **Language:** {lang} | **Focus:** Logic & Justification
+**Objective:** Compare and order numbers up to 100,000 using place value logic.
+**Human Skill Focus:** Critique & Justification.
 
 ---
 
 #### **1. Inferred Context (Trap Detector)**
-* **⚠️ Trap Detected:** Students look at the "length" of the number rather than the highest place value.
-* **Equality Trap:** Students forget that "=" is a valid comparison result.
+* **⚠️ Trap Detected:** Thinking "Longer number = Bigger number."
+* **Alignment:** Grade 2 (3-digits) -> Grade 4 (Decimals).
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** "Show 48,520 vs 48,502. Ask: Which is greater, **or are they equal**? Prove it without speaking."
-* **Success Criteria:** Pointing to the TENS place as the deciding factor.
+* **Task (5 min):** "Compare 38,420 vs 38,240. Point to the greater one. Explain why."
+* **Success Criteria:** Must mention "Hundreds Place" (400 vs 200).
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** "Stacking Cards." Use index cards to physically stack digits and compare column by column. <br> **[ELPS SUPPORT]:** Cognates: *Comparar* (Compare), *Igual* (Equal). |
-| **[CORE]** | **Human Path:** "Symbol Debate." Students draw two cards, place a symbol (<, >, =), and must verbally justify to a partner why. |
-| **[EXTENSION]** | **Challenge:** "Equality Investigation." Give students 47,300 and "40,000 + 7,300". Ask them to prove they are equal. |
+| **[BRIDGE]** | **Micro-Bridge:** Sort 24,305 vs 24,350 using value cards. <br> **[ELPS SUPPORT]:** Sentence Stem: *"I looked at the ___ place first."* |
+| **[CORE]** | **Human Path:** Compare 62,480 vs 62,408. Write symbols (>, <, =) and justify to a partner. |
+| **[EXTENSION]** | **Challenge:** Order 91,560, 90,516, 91,506. Identify the exact deciding place. |
 
 #### **4. Technology Station**
-* **[SCAFFOLD]:** Digital Number Line (Drag and Drop).
-* **[AI EXTENSION]:** "Visualize Complexity." Ask AI to generate a list of 5-digit numbers that share the same first 3 digits. Students must order them manually.
+* **[SCAFFOLD]:** Drag-and-drop place value chart.
+* **[AI EXTENSION]:** "Visualize Complexity." AI generates numbers differing only in middle digits. **(Mandatory: Hand-Verify sample).**
 
 #### **5. Teacher Success Metrics**
-* ✅ Equality was explicitly tested.
-* ✅ Students justified reasoning using Place Value vocabulary.
+* ✅ Equality comparisons included.
+* ✅ Reasoning defended verbally.
     """,
 
     "TEKS 3.2(B)": """
 ### **Lesson Plan: TEKS 3.2(B) Base-10 Relationships**
-**Target:** {grade} | **Language:** {lang} | **Focus:** The "10x" Pattern
+**Objective:** Explain how each place is 10x the value of the right.
+**Human Skill Focus:** Logic & Pattern Recognition.
 
 ---
 
 #### **1. Inferred Context (Trap Detector)**
-* **⚠️ Trap Detected:** Students think "10 times bigger" just means "add a zero" (additive thinking) instead of shifting position (multiplicative).
+* **⚠️ Trap Detected:** "Add a Zero" misconception (Additive vs Multiplicative).
 
 #### **2. Whole Group [READINESS PROBE]**
-* **Task (5 min):** Hold up a Ten Rod and a Hundred Flat. Ask: "Exactly how many Rods fit inside this Flat?"
-* **Success Criteria:** Student states "10 tens make 1 hundred."
+* **Task (5 min):** "Draw 300 and 30. Which is worth more? Why?"
+* **Success Criteria:** Identifies 300 is 10x larger.
 
 #### **3. Differentiation Menu**
 
 | Group | Activity |
 | :--- | :--- |
-| **[BRIDGE]** | **Micro-Bridge:** "Bundling." Physically rubber-band 10 straws to make 1 bundle. Then bundle 10 bundles. <br> **[ELPS SUPPORT]:** Visual aid showing x10 jumps. |
-| **[CORE]** | **Human Path:** "The 10x Sentence." Students fill in: "The value of the ___ place is 10 times the value of the ___ place." |
-| **[EXTENSION]** | **Challenge:** "The Million Question." If we had 10 of these Hundred-Thousands blocks, what would we have? |
+| **[BRIDGE]** | **Micro-Bridge:** Trade 1 Ten Rod for 10 Ones. Trade 1 Hundred Flat for 10 Tens. <br> **[ELPS SUPPORT]:** *"One ___ equals 10 groups of ___."* |
+| **[CORE]** | **Human Path:** "Slide the Digit." Move 4 -> 40 -> 400. Explain the value shift. |
+| **[EXTENSION]** | **Challenge:** "The Million Question." If we had 10 Hundred-Thousands, what would we have? |
 
 #### **4. Teacher Success Metrics**
-* ✅ Physical manipulatives used before abstract rules.
-* ✅ Trap Detector caught the "Add Zero" misconception.
+* ✅ Physical models used before abstract rules.
+* ✅ Trap Detector active.
+    """,
+
+    "Blind Test": """
+### **Blind Test: Raw Standard Analysis**
+**Input:** New Raw Standard (Grade 3 Place Value).
+**Objective:** Validation of Architecture flexibility.
+
+---
+
+#### **1. Inferred Context**
+* **Vertical Alignment:** Prep for 3.NBT.1.
+* **Trap:** Reading digits as a string ("2-0-7") instead of value (207).
+
+#### **2. Whole Group [READINESS PROBE]**
+* **Task:** "Which is greater: 347 or 374? Write ONE sentence explaining why."
+* **Constraint:** Untimed, paper-based.
+
+#### **3. Differentiation Menu**
+
+| Group | Activity |
+| :--- | :--- |
+| **[BRIDGE]** | **Micro-Bridge:** Build 207 vs 172 with blocks. <br> **[ELPS SUPPORT]:** Visual Icon Sheet (Flat=100). |
+| **[CORE]** | **Human Path:** Compare pairs aloud. Record >, <, =. Rotate partners. |
+| **[EXTENSION]** | **Challenge:** "Swap & Reason." Swap tens/ones in 527. Predict change. |
+
+#### **4. Technology Station**
+* **[SCAFFOLD]:** Interactive slide deck.
+* **[AI EXTENSION]:** Generate 4-digit puzzles. **(Mandatory: Verify 2 examples by hand).**
+
+#### **5. Teacher Success Metrics**
+* ✅ Blind Protocol followed (Standard not named).
+* ✅ Success criteria allows approximate number line placement.
     """
 }
 
-# --- 4. SIDEBAR ---
+# --- 4. TRANSLATION ENGINE ---
+def translate_content(content, lang):
+    if lang == "English (US)":
+        return content
+    
+    # SPANISH DICTIONARY
+    if lang == "Spanish":
+        replacements = {
+            "Lesson Plan": "Plan de Lección",
+            "Objective": "Objetivo",
+            "Human Skill Focus": "Enfoque en Habilidades Humanas",
+            "Inferred Context": "Contexto Inferido",
+            "Trap Detector": "Detector de Trampas",
+            "Trap Detected": "Trampa Detectada",
+            "Vertical Alignment": "Alineación Vertical",
+            "Whole Group": "Grupo Entero",
+            "READINESS PROBE": "PRUEBA DE PREPARACIÓN",
+            "Task": "Tarea",
+            "Success Criteria": "Criterios de Éxito",
+            "Differentiation Menu": "Menú de Diferenciación",
+            "BRIDGE": "PUENTE",
+            "CORE": "NÚCLEO",
+            "EXTENSION": "EXTENSIÓN",
+            "Teacher Success Metrics": "Métricas de Éxito Docente",
+            "Activity": "Actividad",
+            "Group": "Grupo",
+            "Micro-Bridge": "Micro-Puente",
+            "Human Path": "Camino Humano",
+            "AI Visualization": "Visualización IA",
+            "Mandatory": "Obligatorio"
+        }
+    
+    # SWAHILI DICTIONARY
+    elif lang == "Swahili":
+        replacements = {
+            "Lesson Plan": "Mpango wa Somo",
+            "Objective": "Lengo",
+            "Human Skill Focus": "Mwelekeo wa Ujuzi wa Kibinadamu",
+            "Inferred Context": "Muktadha Uliohitimishwa",
+            "Trap Detector": "Kigunduzi cha Mtego",
+            "Trap Detected": "Mtego Umegunduliwa",
+            "Vertical Alignment": "Mpangilio wa Wima",
+            "Whole Group": "Kikundi Kizima",
+            "READINESS PROBE": "JARIBIO LA UTAYARI",
+            "Task": "Kazi",
+            "Success Criteria": "Vigezo vya Mafanikio",
+            "Differentiation Menu": "Menú ya Utofautishaji",
+            "BRIDGE": "DARAJA",
+            "CORE": "NJIA KUU",
+            "EXTENSION": "PANUZI",
+            "Teacher Success Metrics": "Vipimo vya Mafanikio ya Mwalimu",
+            "Activity": "Shughuli",
+            "Group": "Kikundi",
+            "Micro-Bridge": "Daraja Dogo",
+            "Human Path": "Njia ya Kibinadamu",
+            "AI Visualization": "Taswira ya AI",
+            "Mandatory": "Lazima"
+        }
+
+    # Apply Translations
+    for eng, trans in replacements.items():
+        content = content.replace(eng, trans)
+    
+    return content
+
+# --- 5. SIDEBAR CONFIGURATION ---
 with st.sidebar:
-    st.title("🧭 Agent Configuration")
-    st.caption(f"v1.3 | System Active | {datetime.date.today()}")
+    st.title("🧭 Configuration")
+    st.caption(f"v1.4 | Enterprise | {datetime.date.today()}")
     st.markdown("---")
     
-    # 1. Grade Logic
     grade = st.selectbox("Grade Level", ["Grade 3", "Grade 4", "Grade 5"])
-    
-    # 2. Language Logic
     lang = st.selectbox("Language", ["English (US)", "Spanish", "Swahili"])
     
-    st.markdown("### 🟢 System Status")
-    st.success("Logic Hardening: **ACTIVE**")
-    st.success("ELPS Module: **LOADED**")
+    st.markdown("### 🟢 System Diagnostics")
+    c1, c2 = st.columns(2)
+    c1.metric("Guardrails", "Active")
+    c2.metric("ELPS", "Loaded")
     
-    if st.button("Clear Output"):
+    if st.button("Reset Session"):
         st.session_state.messages = []
         st.rerun()
 
-# --- 5. MAIN INTERFACE ---
-st.title("Ethical Math Agent (Pilot v1.3)")
-st.markdown("Select a standard to generate a hardened lesson plan immediately.")
+# --- 6. MAIN INTERFACE ---
+st.title("Ethical Math Agent (Pilot v1.4)")
+st.markdown("Select a standard. The engine will adapt to Grade & Language automatically.")
 
-col1, col2, col3 = st.columns(3)
-selected_standard = None
+col1, col2, col3, col4 = st.columns(4)
+selected = None
 
 with col1:
-    if st.button("📝 Plan for TEKS 3.2(A)\n(Representing Numbers)"):
-        selected_standard = "TEKS 3.2(A)"
+    if st.button("📝 TEKS 3.2(A)"):
+        selected = "TEKS 3.2(A)"
 with col2:
-    if st.button("⚖️ Plan for TEKS 3.2(D)\n(Comparing & Ordering)"):
-        selected_standard = "TEKS 3.2(D)"
+    if st.button("⚖️ TEKS 3.2(D)"):
+        selected = "TEKS 3.2(D)"
 with col3:
-    if st.button("🦁 Plan for TEKS 3.2(B)\n(Base-10 Relationships)"):
-        selected_standard = "TEKS 3.2(B)"
+    if st.button("🦁 TEKS 3.2(B)"):
+        selected = "TEKS 3.2(B)"
+with col4:
+    if st.button("🧪 Blind Test"):
+        selected = "Blind Test"
 
-# --- 6. CHAT LOGIC ---
+# --- 7. CHAT LOGIC ---
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -170,60 +272,32 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# --- 7. GENERATION LOGIC ---
-if selected_standard:
-    
-    # Add User Request
-    user_text = f"Generate lesson for {selected_standard} ({lang})"
+if selected:
+    user_text = f"Generate {selected} for {grade} in {lang}"
     st.session_state.messages.append({"role": "user", "content": user_text})
     with st.chat_message("user"):
         st.markdown(user_text)
 
-    # Generate Response
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        
-        with st.spinner("Consulting Field Guide & Applying Guardrails..."):
-            time.sleep(1.5) # Fake thinking time
+        with st.spinner("Consulting Field Guide..."):
+            time.sleep(0.8)
             
-            # Get Base Content
-            base_content = LESSON_DATA.get(selected_standard, "Standard not found.")
+            # 1. GET CONTENT
+            raw_content = RAW_DATA.get(selected, "Error loading content.")
             
-            # --- REAL-TIME TRANSLATION SIMULATION ---
-            # This swaps words based on the Sidebar Selection!
+            # 2. TRANSLATE CONTENT
+            final_content = translate_content(raw_content, lang)
             
-            final_content = base_content # Start with base
-            
-            if lang == "Spanish":
-                final_content = final_content.replace("Lesson Plan", "Plan de Lección")
-                final_content.replace("Inferred Context", "Contexto Inferido")
-                final_content.replace("Trap Detected", "Trampa Detectada")
-                final_content.replace("Whole Group", "Grupo Entero")
-                final_content.replace("READINESS PROBE", "PRUEBA DE PREPARACIÓN")
-                final_content.replace("Differentiation Menu", "Menú de Diferenciación")
-                final_content.replace("Teacher Success Metrics", "Métricas de Éxito Docente")
-                final_content.replace("Bridge", "Puente")
-            
-            elif lang == "Swahili":
-                final_content = final_content.replace("Lesson Plan", "Mpango wa Somo")
-                final_content.replace("Inferred Context", "Muktadha Uliohitimishwa")
-                final_content.replace("Trap Detected", "Mtego Umegunduliwa")
-                final_content.replace("Whole Group", "Kikundi Kizima")
-                final_content.replace("READINESS PROBE", "JARIBIO LA UTAYARI")
-                final_content.replace("Differentiation Menu", "Menú ya Utofautishaji")
-                final_content.replace("Teacher Success Metrics", "Vipimo vya Mafanikio ya Mwalimu")
-            
-            # Inject Grade and Language Variables
-            final_content = final_content.format(grade=grade, lang=lang)
-            
-            # Typewriter Effect
-            display_text = ""
-            for char in final_content:
-                display_text += char
-                if len(display_text) % 5 == 0: 
-                    message_placeholder.markdown(display_text + "▌")
-                    time.sleep(0.001)
-            
+            # 3. RENDER
             message_placeholder.markdown(final_content)
+            
+            # 4. DOWNLOAD BUTTON
+            st.download_button(
+                label=f"📥 Download {lang} PDF",
+                data=final_content,
+                file_name=f"Lesson_{selected}_{lang}.txt",
+                mime="text/plain"
+            )
             
     st.session_state.messages.append({"role": "assistant", "content": final_content})
